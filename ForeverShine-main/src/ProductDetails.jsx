@@ -63,7 +63,7 @@ import TyrePolish5L from './assets/5L/Tyre-polish-b.png'
 import Dashboard from './assets/5l/Dashboard.png'
 import DryClean from './assets/5l/Dry clean.png'
 
-// 5L
+
 
 
 
@@ -357,7 +357,7 @@ const products = {
   name: 'Glass Cleaner',
   price: '₹ 145.00',
   description: 'Crystal-clear glass cleaner that removes smudges, dust, and grime from car windows and mirrors for perfect visibility.',
-  category: ' HOME CARE',
+  category: 'CAR CARE',
   rating: 4.6,
    variants: [
     { volume: '30ml', price: '₹ 90', stock: 5, image: GlassCleaner30ml },
@@ -649,7 +649,7 @@ export default function ProductDetails() {
     addToCart({
       id: productId,
       name: product.name,
-      price: product.price,
+      price: selectedVariant.price,
       image: product.image,
       category: product.category
     }, quantity);
@@ -760,8 +760,8 @@ export default function ProductDetails() {
                     addToWishlist({
                       id: productId,
                       name: product.name,
-                      price: product.price,
-                      image: product.image,
+                      price: selectedVariant.price,
+                      image: selectedVariant.image,
                       category: product.category,
                     });
                     alert('Added to wishlist!');

@@ -1,163 +1,57 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useCart } from './context/CartContext';
-import { useWishlist } from './context/WishlistContext';
-import { HeartIcon, ShareIcon } from '@heroicons/react/24/outline';
-
-
-
-
-// new images
-
-import GlassCleaner from './assets/200ml/Glass cleaner.png';
-
-
-
-import Zoom from 'react-medium-image-zoom'
 import 'react-medium-image-zoom/dist/styles.css'
 
-const baseProducts = [
-
-
-  {
-    id: 'glass-cleaner',
-    name: 'Glass Cleaner',
-    price: 90.00,
-    priceDisplay: '₹ 90.00',
-    image: GlassCleaner,
-  },
-  
-];
-
-// Remove repetition, use baseProducts directly
-const products = baseProducts;
-
+// code for comming soon
 export default function HomeCare() {
-  const { addToCart } = useCart();
-  const { addToWishlist, isInWishlist } = useWishlist();
-  const [sortOrder, setSortOrder] = useState('default');
-  const [filterText, setFilterText] = useState('');
-  const [filteredProducts, setFilteredProducts] = useState(products);
+ 
+  const [email, setEmail] = useState('');
+  const [submitted, setSubmitted] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleSortChange = (e) => {
-    const value = e.target.value;
-    setSortOrder(value);
-    let sortedProducts = [...filteredProducts];
-    if (value === 'price-asc') {
-      sortedProducts.sort((a, b) => a.price - b.price);
-    } else if (value === 'price-desc') {
-      sortedProducts.sort((a, b) => b.price - a.price);
-    } else {
-      sortedProducts = [...filteredProducts];
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setError('');
+    // Simple email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError('Please enter a valid email address.');
+      return;
     }
-    setFilteredProducts(sortedProducts);
+    // Simulate successful submission
+    setSubmitted(true);
   };
-
-  const handleFilterChange = (e) => {
-    const value = e.target.value;
-    setFilterText(value);
-    const filtered = products.filter(product =>
-      product.name.toLowerCase().includes(value.toLowerCase())
-    );
-    setFilteredProducts(filtered);
-    // Reset sort order when filtering
-    setSortOrder('default');
-  };
-
-  const handleShare = (product) => {
-    if (navigator.share) {
-      navigator.share({
-        title: product.name,
-        text: product.name,
-        url: window.location.href,
-      }).catch((error) => console.log('Error sharing', error));
-    } else {
-      alert('Sharing is not supported in this browser.');
-    }
-  };
+  
 
   return (
-    <div className="max-w-6xl mx-auto py-12 px-4">
-      <h1 className="text-4xl font-extrabold mb-8 text-center tracking-tight text-gray-900 drop-shadow">Home Care Products</h1>
-      <div className="flex justify-end mb-6 gap-4">
-        <div>
-          <label htmlFor="filter" className="mr-2 font-semibold">Filter:</label>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-16 px-4">
+      <div className="w-full max-w-xl mx-auto bg-white rounded-2xl shadow-xl p-10 flex flex-col items-center animate-fadeInUp">
+        <h2 className="text-4xl font-extrabold mb-6 text-center text-gray-900">Coming Soon</h2>
+        <p className="text-lg text-center text-gray-700 mb-8">
+          Leave your email and we'll let you know when the shop opens
+        </p>
+        <form className="w-full flex flex-col items-center" onSubmit={handleSubmit}>
           <input
-            id="filter"
-            type="text"
-            value={filterText}
-            onChange={handleFilterChange}
-            placeholder="Filter by product name"
-            className="border border-teal-700 rounded p-2 text-teal-700 font-semibold bg-teal-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-600"
+            type="email"
+            placeholder="Email address"
+            className="w-full max-w-md px-6 py-3 border-2 border-gray-300 rounded-xl text-lg focus:outline-none focus:border-teal-600 transition-all duration-200 bg-gray-100 placeholder-gray-400"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-        </div>
-        <div>
-          <label htmlFor="sort" className="mr-2 font-semibold">Sort By:</label>
-          <select
-            id="sort"
-            value={sortOrder}
-            onChange={handleSortChange}
-            className="border border-teal-700 rounded p-2 text-teal-700 font-semibold bg-teal-100 shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-600"
+          {error && <p className="text-red-500 mt-2">{error}</p>}
+          <button
+            type="submit"
+            className="mt-6 w-full max-w-md bg-teal-600 text-white py-3 rounded-xl text-lg font-semibold hover:bg-teal-700 transition-colors duration-200"
           >
-            <option value="default">Default</option>
-            <option value="price-asc">Price: Low to High</option>
-            <option value="price-desc">Price: High to Low</option>
-          </select>
-        </div>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        {filteredProducts.map((product, index) => (
-          <div
-            key={index}
-            className="flex flex-col items-center bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out p-4 relative"
-          >
-            <Zoom>
-            <Link to={`/product/${product.id}`}>
-              <img src={product.image} alt={product.name} className="w-56 h-56 object-cover mb-3 shadow cursor-pointer" />
-            </Link>
-            </Zoom>
-            <span className="text-lg font-semibold text-gray-800 mb-1">{product.name}</span>
-            <div className="flex items-center justify-between w-full mt-1">
-              <span className="text-base font-bold text-teal-700">{product.priceDisplay}</span>
-            </div>
-            <div className="absolute top-2 right-2 flex gap-2 bg-white rounded-full p-1 shadow-md z-10">
-              <button
-                onClick={() => {
-                  if (!isInWishlist(product.id)) {
-                    addToWishlist(product);
-                    alert('Added to wishlist!');
-                  } else {
-                    alert('Product already in wishlist');
-                  }
-                }}
-                aria-label="Add to wishlist"
-                className="p-2 rounded-full"
-              >
-                {isInWishlist(product.id) ? (
-                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-red-500" viewBox="0 0 24 24" fill="red" stroke="red" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="M12 21C12 21 5 14.5 5 9.5C5 7.01472 7.01472 5 9.5 5C10.8807 5 12 6.11929 12 6.11929C12 6.11929 13.1193 5 14.5 5C16.9853 5 19 7.01472 19 9.5C19 14.5 12 21 12 21Z" />
-                  </svg>
-                ) : (
-                  <HeartIcon className="w-6 h-6 text-gray-700" />
-                )}
-              </button>
-              <button
-                onClick={() => handleShare(product)}
-                aria-label="Share product"
-                className="p-2 rounded-full"
-              >
-                <ShareIcon className="w-6 h-6 text-gray-700" />
-              </button>
-            </div>
-            <button 
-              className="w-full text-white bg-teal-700 hover:bg-teal-800 p-2 shadow transition-colors duration-200 mt-4"
-              onClick={() => addToCart(product, 1)}
-            >
-              <span className="text-sm md:text-base font-medium">ADD TO CART</span>
-            </button>
-          </div>
-        ))}
+            Submit
+          </button>
+          {submitted && (
+            <p className="text-green-600 mt-4 text-center">
+              Thank you! You will be notified when the shop opens.
+            </p>
+          )}
+        </form>
       </div>
     </div>
+    
   );
 }

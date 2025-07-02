@@ -121,7 +121,8 @@ export default function Navbar() {
               <Link to="/car-care">Car care</Link>
             </li>
             <li className="hover:text-teal-700 hover:underline underline-offset-8 transition-all duration-200 cursor-pointer">
-              <Link to="/home-care">Home care</Link>
+              <Link to="/home-care" className="flex flex-col items-center"><span>Home Care</span>
+              <span className="text-xs text-gray-400 mt-1">(Coming Soon)</span></Link>
             </li>
             <li className="hover:text-teal-700 hover:underline underline-offset-8 transition-all duration-200 cursor-pointer">
               <Link to="/personal-care" className="flex flex-col items-center">
@@ -146,7 +147,8 @@ export default function Navbar() {
                   
                 </li>
                 <li className="hover:bg-teal-50">
-                  <Link to="/home-care" className="block px-4 py-2 text-gray-800 hover:text-teal-700" onClick={() => setIsMobileMenuOpen(false)}>Home care</Link>
+                  <Link to="/home-care" className="block px-4 py-2 text-gray-800 hover:text-teal-700" onClick={() => setIsMobileMenuOpen(false)}>Home care
+                  <span className="text-xs text-gray-400 ml-2">(Coming Soon)</span></Link>
                   
                 </li>
                 <li className="hover:bg-teal-50">

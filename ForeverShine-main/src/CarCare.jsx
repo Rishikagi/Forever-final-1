@@ -4,7 +4,7 @@ import { useCart } from './context/CartContext';
 import { useWishlist } from './context/WishlistContext';
 import { HeartIcon, ShareIcon } from '@heroicons/react/24/outline';
 
-import RoomFreshener from './assets/200ml/Car-perfume.png'
+import GlassCleaner from './assets/200ml/Glass cleaner.png';
 import CarPerfume from './assets/200ml/Car-perfume.png'
 import DashboardPolish from './assets/200ml/Dashboard-polish.png'
 import TyrePolish from './assets/200ml/Tyre-polish.png'
@@ -43,6 +43,13 @@ const baseProducts = [
     price: 90.00,
     priceDisplay: '₹ 90.00',
     image: TyrePolish,
+  },
+    {
+    id: 'glass-cleaner',
+    name: 'Glass Cleaner',
+    price: 90.00,
+    priceDisplay: '₹ 90.00',
+    image: GlassCleaner,
   },
   {
     id: 'car-wash-shampoo',
@@ -132,7 +139,8 @@ export default function CarCare() {
   return (
     <div className="max-w-6xl mx-auto py-12 px-4">
       <h1 className="text-4xl font-extrabold mb-8 text-center tracking-tight text-gray-900 drop-shadow">Car Care Products</h1>
-      <div className="flex justify-end mb-6 gap-4">
+      <div className="flex flex-col sm:flex-row justify-end items-start sm:items-center gap-4 mb-6 w-full">
+
         <div>
           <label htmlFor="filter" className="mr-2 font-semibold">Filter:</label>
           <input
