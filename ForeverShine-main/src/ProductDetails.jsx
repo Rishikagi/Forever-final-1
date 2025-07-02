@@ -201,7 +201,7 @@ const products = {
     category: 'CAR CARE',
     rating: 0,
      variants: [
-      { volume: '30ml', price: '₹ 90', stock: 5, image: GlassWashShampoo30ml },
+      { volume: '30ml', price: '₹ 90', stock: 5 },
       { volume: '100ml', price: '₹ 199', stock: 20, image: CarwashShampoo100ml },
       { volume: '200ml', price: '₹ 749', stock: 10, image: CarwashShampoo },
       { volume: '500ml', price: '₹ 949', stock: 5, image: CarwashShampoo500ml },
