@@ -1,0 +1,157 @@
+import React, { createContext, useContext, useState, useEffect } from 'react';
+
+import CarPerfume from '../assets/200ml/car-perfume.png'
+import DashboardPolish from '../assets/200ml/Dashboard-polish.png'
+import TyrePolish from '../assets/200ml/Tyre-polish.png'
+import CarwashShampoo from '../assets/200ml/car-wash-shampoo.png'
+
+
+// new images
+// new images
+import DryCleanShampoo from '../assets/200ml/dry clean shampoo.png';
+import GlassCleaner from '../assets/200ml/Glass cleaner.png';
+import GlassDeffoger from '../assets/200ml/Glass deffoger.png';
+import WiperWasherShampoo from '../assets/200ml/Wiper washer shampoo.png';
+import GlassWashShampoo30ml from '../assets/30ml/glass wash shampoo.png'; 
+
+const SearchContext = createContext();
+
+export function SearchProvider({ children }) {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
+  const [isSearching, setIsSearching] = useState(false);
+  const [recentSearches, setRecentSearches] = useState(() => {
+    const saved = localStorage.getItem('recentSearches');
+    return saved ? JSON.parse(saved) : [];
+  });
+
+  // Save recent searches to localStorage
+  useEffect(() => {
+    localStorage.setItem('recentSearches', JSON.stringify(recentSearches));
+  }, [recentSearches]);
+
+  // Sample product data - replace with your actual product data
+  const products = [
+    {
+      id: 'car-perfume',
+      name: 'Car Perfume',
+      category: 'CAR CARE',
+      price: '₹ 225.00',
+      image: CarPerfume
+    },
+    {
+      id: 'tyre-polish',
+      name: 'Tyre Polish',
+      category: 'CAR CARE',
+      price: '₹ 90.00',
+      image: TyrePolish
+    },
+    {
+      id: 'car-wash-shampoo',
+      name: 'Car Wash Shampoo',
+      category: 'CAR CARE',
+      price: '₹ 140.00',
+      image: CarwashShampoo
+    },
+    {
+      id: 'dash-board-polish',
+      name: 'Dash-Board Polish',
+      category: 'CAR CARE',
+      price: '₹ 90.00',
+      image: DashboardPolish
+    },
+    
+    {
+      id: 'dry-clean-shampoo',
+      name: 'Dry Clean Shampoo',
+      category: 'HOME CARE',
+      price: '₹ 90.00',
+      image: DryCleanShampoo
+    },
+    {
+      id: 'glass-cleaner',
+      name: 'Glass Cleaner',
+      category: 'HOME CARE',
+      price: '₹ 90.00',
+      image: GlassCleaner
+    },
+    
+    {
+      id: 'glass-deffoger',
+      name: 'Glass Deffoger',
+
+    },
+     {
+      id: 'wiper-washer-shampoo',
+      name: 'Wiper Washer Shampoo',
+
+    } ,
+    {
+      id: 'glass-wash-shampoo',
+      name: 'Glass Wash Shampoo',
+
+    }
+  ];
+
+  const searchProducts = (query) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      return;
+    }
+
+    const results = products.filter(product => 
+      product.name.toLowerCase().includes(query.toLowerCase()) ||
+      product.category.toLowerCase().includes(query.toLowerCase())
+    );
+
+    setSearchResults(results);
+  };
+
+  const handleSearch = (query) => {
+    if (!query.trim()) return;
+
+    setIsSearching(true);
+    searchProducts(query);
+    
+    // Add to recent searches if not already present
+    if (!recentSearches.includes(query)) {
+      setRecentSearches(prev => [query, ...prev].slice(0, 5));
+    }
+
+    setIsSearching(false);
+  };
+
+  const clearRecentSearches = () => {
+    setRecentSearches([]);
+  };
+
+  const removeRecentSearch = (search) => {
+    setRecentSearches(prev => prev.filter(s => s !== search));
+  };
+
+  return (
+    <SearchContext.Provider
+      value={{
+        searchQuery,
+        setSearchQuery,
+        searchResults,
+        isSearching,
+        recentSearches,
+        handleSearch,
+        clearRecentSearches,
+        removeRecentSearch,
+        searchProducts
+      }}
+    >
+      {children}
+    </SearchContext.Provider>
+  );
+}
+
+export function useSearch() {
+  const context = useContext(SearchContext);
+  if (!context) {
+    throw new Error('useSearch must be used within a SearchProvider');
+  }
+  return context;
+} 

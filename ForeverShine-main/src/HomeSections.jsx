@@ -1,0 +1,367 @@
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { useCart } from './context/CartContext';
+import { useWishlist } from './context/WishlistContext';
+import { HeartIcon as OutlineHeartIcon, ShareIcon } from '@heroicons/react/24/outline';
+// Removed import of SolidHeartIcon to replace with inline SVG
+import PersonalCare from './images/Property 1=Group 8.jpg'
+import HomeCare from './images/Property 1=Component 7.jpg'
+import CarCare from './images/Property 1=1737913248.jpg'
+
+
+import CarPerfume from './assets/200ml/Car-perfume.png'
+import DashboardPolish from './assets/200ml/Dashboard-polish.png'
+import TyrePolish from './assets/200ml/Tyre-polish.png'
+import CarwashShampoo from './assets/200ml/Car-wash-shampoo.png'
+import Forevershine from './images/ForeverShine.jpg'
+
+// new images
+import DryCleanShampoo from './assets/200ml/dry clean shampoo.png';
+import GlassCleaner from './assets/200ml/Glass cleaner.png';
+import GlassDeffoger from './assets/200ml/Glass deffoger.png';
+import WiperWasherShampoo from './assets/200ml/Wiper washer shampoo.png';
+import GlassWashShampoo30ml from './assets/30ml/glass wash shampoo.png'; //new product
+
+import Blog1 from './images/Blog1.jpg'
+import Blog2 from './images/Blog2.jpg'
+import Blog3 from './images/Blog3.jpg'
+import Zoom from 'react-medium-image-zoom'
+import 'react-medium-image-zoom/dist/styles.css'
+
+const categories = [
+  {
+    name: 'Car Care',
+    icon: CarCare,
+  },
+  {
+    name: 'Home Care',
+    icon: HomeCare,
+  },
+  {
+    name: 'Personal Care (Coming soon)',
+    icon: PersonalCare,
+  },
+];
+
+const newArrivals = [
+  
+  {
+    id: 'tyre-polish',
+    name: 'Tyre Polish',
+    price: '₹ 90.00',
+    image: TyrePolish,
+  },
+  {
+    id: 'car-wash-shampoo',
+    name: 'Car Wash Shampoo',
+    price: '₹ 140.00',
+    image: CarwashShampoo,
+  },
+ 
+ 
+  
+];
+
+const bestSellers = [
+ 
+  {
+    id: 'car-perfume',
+    name: 'Car Perfume',
+    price: '₹ 225.00',
+    image: CarPerfume,
+  },
+  {
+    id: 'dash-board-polish',
+    name: 'Dash-Board Polish',
+    price: '₹ 90.00',
+    image: DashboardPolish,
+  },
+  {
+    id: 'car-wash-shampoo',
+    name: 'Car Wash Shampoo',
+    price: '₹ 140.00',
+    image: CarwashShampoo,
+  },
+  // new data entry
+  {
+    id: 'dry-clean-shampoo',
+    name: 'Dry Clean Shampoo',
+    price: '₹ 150.00',
+    image: DryCleanShampoo,
+  },
+    {
+    id: 'glass-wash-shampoo',
+    name: 'Glass Wash Shampoo',
+    price: '₹ 99.00',
+    image: GlassWashShampoo30ml,
+  },
+  {
+    id: 'glass-cleaner',
+    name: 'Glass Cleaner',
+    price: '₹ 80.00',
+    image: GlassCleaner,
+  },
+  {
+    id: 'glass-deffoger',
+    name: 'Glass Deffoger',
+    price: '₹ 70.00',
+    image: GlassDeffoger,
+  },
+  {
+    id: 'wiper-washer-shampoo',
+    name: 'Wiper Washer Shampoo',
+    price: '₹ 100.00',
+    image: WiperWasherShampoo,
+  },
+  
+];
+
+export default function HomeSections() {
+  const { addToCart } = useCart();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+
+  const handleShare = (product) => {
+    if (navigator.share) {
+      navigator.share({
+        title: product.name,
+        text: product.name,
+        url: window.location.href,
+      }).catch((error) => console.log('Error sharing', error));
+    } else {
+      alert('Sharing is not supported in this browser.');
+    }
+  };
+
+  return (
+    <>
+    <div className="max-w-6xl mx-auto px-4 md:px-0 py-8 md:py-12">
+      {/* Explore Categories */}
+      <h2 className="text-3xl md:text-4xl font-extrabold mb-6 md:mb-8 text-left tracking-tight text-gray-900 drop-shadow">Explore Categories</h2>
+      <div className="flex flex-col md:flex-row justify-center md:justify-between mb-8 md:mb-12 gap-6 md:gap-8">
+        {categories.map((cat, idx) => (
+          <Link 
+            key={idx} 
+            to={cat.name.includes('Personal') ? '/personal-care' : 
+                cat.name.includes('Home') ? '/home-care' : 
+                cat.name.includes('Car') ? '/car-care' : '/'}
+            className="flex flex-col items-center border-2 border-teal-200 rounded-2xl p-4 md:p-6 w-full md:w-64 bg-white shadow-xl hover:shadow-2xl transition-shadow duration-300 ease-in-out transform hover:-translate-y-2 cursor-pointer"
+          >
+            <img src={cat.icon} alt={cat.name} className="w-32 h-32 md:w-44 md:h-44 mb-4 rounded-xl shadow-md object-contain bg-gradient-to-br from-teal-50 to-white" />
+            <span className="text-center text-lg md:text-xl font-bold mt-2 text-gray-800">{cat.name}</span>
+          </Link>
+        ))}
+      </div>
+
+      {/* Best Seller Deal */}
+      <h3 className="text-2xl md:text-3xl font-bold text-red-700 mb-4 md:mb-6 tracking-tight drop-shadow">Best Seller Deal</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
+        {bestSellers.map((prod, idx) => (
+          <div 
+            key={idx} 
+            className="flex flex-col items-center w-full bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out p-4 transform hover:-translate-y-2 cursor-pointer relative"
+          >
+            <Zoom>
+              <Link to={`/product/${prod.id}`}>
+                <img src={prod.image} alt={prod.name} className="w-full h-48 md:h-56 object-cover mb-3 shadow" />
+              </Link>
+            </Zoom>
+            <span className="text-base md:text-lg font-semibold text-gray-800 mb-1">{prod.name}</span>
+            <div className="flex items-center justify-between w-full mt-1">
+              <span className="text-sm md:text-base font-bold text-teal-700">{prod.price}</span>
+            </div>
+            <div className="absolute top-2 right-2 flex gap-2 bg-white rounded-full p-1 shadow-md z-10">
+              <button
+                onClick={() => {
+                  if (!isInWishlist(prod.id)) {
+                    addToWishlist(prod);
+                    alert('Added to wishlist!');
+                  } else {
+                    removeFromWishlist(prod.id);
+                    alert('Removed from wishlist');
+                  }
+                }}
+                aria-label={isInWishlist(prod.id) ? "Remove from wishlist" : "Add to wishlist"}
+                className="p-2 rounded-full"
+              >
+                {isInWishlist(prod.id) ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-red-500" viewBox="0 0 24 24" fill="red" stroke="red" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 21C12 21 5 14.5 5 9.5C5 7.01472 7.01472 5 9.5 5C10.8807 5 12 6.11929 12 6.11929C12 6.11929 13.1193 5 14.5 5C16.9853 5 19 7.01472 19 9.5C19 14.5 12 21 12 21Z" />
+                  </svg>
+                ) : (
+                  <OutlineHeartIcon className="w-6 h-6 text-gray-700" />
+                )}
+              </button>
+              <button
+                onClick={() => handleShare(prod)}
+                aria-label="Share product"
+                className="p-2 rounded-full"
+              >
+                <ShareIcon className="w-6 h-6 text-gray-700" />
+              </button>
+            </div>
+            <button 
+              className="w-full text-white bg-teal-700 hover:bg-teal-800 p-2 shadow transition-colors duration-200 ml-2"
+              onClick={() => addToCart(prod, 1)}
+            >
+              <span className="text-sm md:text-base font-medium">ADD TO CART</span>
+            </button>
+          </div>
+        ))}
+      </div>
+
+      {/* New Arrivals */}
+      <h3 className="text-2xl md:text-3xl font-bold text-red-700 mb-4 md:mb-6 tracking-tight drop-shadow">New Arrivals</h3>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8 mb-8 md:mb-12">
+        {newArrivals.map((prod, idx) => (
+          <div 
+            key={idx} 
+            className="flex flex-col items-center w-full bg-white shadow-lg hover:shadow-2xl transition-shadow duration-300 ease-in-out p-4 transform hover:-translate-y-2 cursor-pointer relative"
+          >
+            <Zoom>
+              <Link to={`/product/${prod.id}`}>
+                <img src={prod.image} alt={prod.name} className="w-full h-48 md:h-56 object-cover  mb-3 shadow" />
+              </Link>
+            </Zoom>
+            <span className="text-base md:text-lg font-semibold text-gray-800 mb-1">{prod.name}</span>
+            <div className="flex items-center justify-between w-full mt-1">
+              <span className="text-sm md:text-base font-bold text-teal-700">{prod.price}</span>
+            </div>
+            <div className="absolute top-2 right-2 flex gap-2 bg-white rounded-full p-1 shadow-md z-10">
+              <button
+                onClick={() => {
+                  if (!isInWishlist(prod.id)) {
+                    addToWishlist(prod);
+                    alert('Added to wishlist!');
+                  } else {
+                    alert('Product already in wishlist');
+                  }
+                }}
+                aria-label="Add to wishlist"
+                className="p-2 rounded-full"
+              >
+                {isInWishlist(prod.id) ? (
+                  <svg xmlns="http://www.w3.org/2000/svg" className="w-6 h-6 text-red-500" viewBox="0 0 24 24" fill="red" stroke="red" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 21C12 21 5 14.5 5 9.5C5 7.01472 7.01472 5 9.5 5C10.8807 5 12 6.11929 12 6.11929C12 6.11929 13.1193 5 14.5 5C16.9853 5 19 7.01472 19 9.5C19 14.5 12 21 12 21Z" />
+                  </svg>
+                ) : (
+                  <OutlineHeartIcon className="w-6 h-6 text-gray-700" />
+                )}
+              </button>
+              <button
+                onClick={() => handleShare(prod)}
+                aria-label="Share product"
+                className="p-2 rounded-full"
+              >
+                <ShareIcon className="w-6 h-6 text-gray-700" />
+              </button>
+            </div>
+            <button 
+              className="w-full text-white bg-teal-700 hover:bg-teal-800 p-2 shadow transition-colors duration-200 ml-2"
+              onClick={() => addToCart(prod, 1)}
+            >
+              <span className="text-sm md:text-base font-medium">ADD TO CART</span>
+            </button>
+          </div>
+        ))}
+      </div>
+      
+      {/* Forevershine Banner Section - Full Width */}
+      <div className="relative w-full h-[15rem] md:h-[35rem] overflow-hidden mt-8 flex items-center justify-center animate-fadeInUp">
+      <img 
+      src={Forevershine} 
+      alt="Forever Shine" 
+      className="absolute inset-0 w-full h-full object-contain md:object-cover object-center bg-white" 
+     />
+      </div>
+
+      {/* Services Section */}
+      <div className="w-full bg-white py-8 md:py-14 shadow-inner rounded-t-3xl">
+        <div className="max-w-6xl mx-auto px-4 md:px-0">
+          <h2 className="text-3xl md:text-4xl font-extrabold mb-6 md:mb-10 text-left tracking-tight text-gray-900 drop-shadow">Services</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 text-center">
+            {/* Service 1 */}
+            <div className="flex flex-col items-center text-center p-4">
+              <div className='services-icon mb-1 flex justify-center items-center'><img src='https://icon-library.com/images/free-shipping-icon-vector/free-shipping-icon-vector-6.jpg'  className='shadow-xl border-4 border-gray-100 hover:scale-105 hover:shadow-2xl transition-all duration-300'/></div>
+              <span className="text-[#3422FF] font-bold">Free</span>
+              <span className="text-black font-bold"> Shipping</span>
+              <div className="text-base md:text-lg text-gray-800 mt-2">Free shipping on all US order or above $200</div>
+            </div>
+            {/* Service 2 */}
+            <div className="flex flex-col items-center text-center p-4">
+              <div className='services-icon font-bold text-xl md:text-2xl mb-2'><img src='https://img.freepik.com/premium-vector/24x7-service-logo-design-everyday-vector-file_389740-725.jpg'  className='shadow-xl border-4 border-gray-100 hover:scale-105 hover:shadow-2xl transition-all duration-300'/></div>
+              <span className="text-[#3422FF] font-bold">24x7</span>
+              <span className="text-black font-bold"> Support</span>
+              <div className="text-base md:text-lg text-gray-800 mt-2">Contact us 24 hours a day, 7 days a week</div>
+            </div>
+            {/* Service 3 */}
+            <div className="flex flex-col items-center text-center p-4">
+              <div className='services-icon font-bold text-xl md:text-2xl mb-2'><img src='https://thumbs.dreamstime.com/b/flat-line-design-concept-icon-purchase-returns-support-delivery-process-online-order-procedure-website-banner-landing-page-120718997.jpg'  className='shadow-xl border-4 border-gray-100 hover:scale-105 hover:shadow-2xl transition-all duration-300'/></div>
+              <span className="text-[#3422FF] font-bold">7 days</span>
+              <span className="text-black font-bold"> Return</span>
+              <div className="text-base md:text-lg text-gray-800 mt-2">Simply return it within 7 days for an exchange</div>
+            </div>
+            {/* Service 4 */}
+            <div className="flex flex-col items-center text-center p-4">
+              <div className='services-icon mb-1 flex justify-center items-center'><img src='https://logowik.com/content/uploads/images/secure-payment2785.jpg' className='shadow-xl border-4 border-gray-100 hover:scale-105 hover:shadow-2xl transition-all duration-300'/></div>
+              <span className="text-[#3422FF] font-bold">Payment </span><span className="text-black font-bold">Secure</span>
+              <div className="text-base md:text-lg text-gray-800 mt-2">Contact us 24 hours a day, 7 days a week</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Blog & News Section */}
+      <div className="w-full bg-white py-8 md:py-16">
+        <div className="max-w-6xl mx-auto px-4 md:px-0">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-center text-teal-800 mb-4 tracking-tight drop-shadow">Our Blog & News</h2>
+          <p className="text-base md:text-xl text-center mb-6 md:mb-10 text-gray-900">
+            Our <span className="font-bold italic">MD Sandeep Sharma</span> get awarded from <span className="font-bold italic">Isha Deol</span> and after attend press conference in Delhi.
+          </p>
+         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+ 
+  <div className="flex flex-col items-center">
+    <img
+      src={Blog1}
+      alt="Blog 1"
+      className="w-full h-48 md:h-72 object-cover rounded-3xl shadow-xl border-4 border-gray-100 hover:scale-105 hover:shadow-2xl transition-all duration-300"
+    />
+    <span className='font-semibold'> Sandeep With Isha Deol. &nbsp;
+    <Link to="/BlogOne" className="mt-3 text-black-200 font-light hover:underline transition duration-200">
+  Read More
+</Link></span>
+  </div>
+
+ 
+  <div className="flex flex-col items-center">
+    <img
+      src={Blog2}
+      alt="Blog 2"
+      className="w-full h-48 md:h-72 object-cover rounded-3xl shadow-xl border-4 border-gray-100 hover:scale-105 hover:shadow-2xl transition-all duration-300"
+    />
+    <span className='font-semibold'> Sandeep With Isha Deol. &nbsp;
+    <Link to="/BlogOne" className="mt-3 text-black-200 font-light hover:underline transition duration-200">
+  Read More
+</Link> </span>
+  </div>
+
+
+  <div className="flex flex-col items-center">
+    <img
+      src={Blog3}
+      alt="Blog 3"
+      className="w-full h-48 md:h-72 object-cover rounded-3xl shadow-xl border-4 border-gray-100 hover:scale-105 hover:shadow-2xl transition-all duration-300"
+    />
+    <span className='font-semibold'>  Press Conference at Delhi. &nbsp;
+
+    <Link to="/BlogThree" className="mt-3 text-black-200 font-light hover:underline transition duration-200">
+  Read More
+</Link> </span>
+  </div>
+</div>
+
+        </div>
+      </div>
+    </div>
+    </>
+  );
+}
