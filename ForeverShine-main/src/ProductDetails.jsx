@@ -53,11 +53,11 @@ import TyrePolish500ml from './assets/500ml/Tyre polish.png'
 
 // 5l
 import DryCleanShampoo5L from './assets/5L/Dry clean.png';
-import CarwashShampoo5L from './assets/5L/Car-wash-shampoo-b.png';
+import CarwashShampoo5L from './assets/5L/Car-wash-shampoo.png';
 import GlassCleaner5L from './assets/5L/Glass-cleaner.png';
 import GlassDeffoger5L from './assets/5L/Glass-deffoger.png';
 import WiperWasherShampoo5L from './assets/5L/wiper washer shampoo.png';
-import CarPerfume5L from './assets/5L/Car-perfume-b.png'
+import CarPerfume5L from './assets/5L/Car-perfume.png'
 import DashboardPolish5L from './assets/5L/Dashboard.png'
 import TyrePolish5L from './assets/5L/Tyre.png'
 
